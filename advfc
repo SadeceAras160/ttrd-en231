@@ -1,0 +1,307 @@
+--[[
+ .____                  ________ ___.    _____                           __                
+ |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
+ |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
+ |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
+ |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
+         \/          \/         \/    \/                \/     \/     \/                   
+          \_Welcome to LuaObfuscator.com   (Alpha 0.10.6) ~  Much Love, Ferib 
+
+]]--
+
+if not _G.Flags then
+	_G.Flags = {ESP={NotVisibleColor=Color3.fromRGB(255, 0, 0),VisibleColor=Color3.fromRGB(0, 255, 0),DistanceLimit=1500,Box=true,Name=true,Weapon=true,Distance=true,VisibleCheck=true,Sleepers=false},HitboxExpander={Size=7,Enabled=true,Transparency=0.7,Part="Head"}};
+end
+if not _G.Loaded then
+	_G.Loaded = true;
+	local ReplicatedStorage = game:GetService("ReplicatedStorage");
+	local RunService = game:GetService("RunService");
+	local Items = ReplicatedStorage:WaitForChild("HandModels");
+	local CoreGui = game:GetService("CoreGui");
+	local CurrentCamera = workspace.CurrentCamera;
+	local IgnoreFolder = workspace:WaitForChild("Ignore");
+	local OriginalSizes = {};
+	local WeaponInfo = {};
+	local SleepAnimationId = "rbxassetid://13280887764";
+	for i, v in pairs(ReplicatedStorage.Shared.entities.Player.Model:GetChildren()) do
+		if v:IsA("BasePart") then
+			OriginalSizes[v.Name] = v.Size;
+		end
+	end
+	for i, v in pairs(Items:GetChildren()) do
+		v:SetAttribute("RealName", v.Name);
+	end
+	function IsSleeping(Player)
+		local FlatIdent_95CAC = 0;
+		local Animations;
+		while true do
+			if (FlatIdent_95CAC == 1) then
+				return false;
+			end
+			if (FlatIdent_95CAC == 0) then
+				Animations = Player.AnimationController:GetPlayingAnimationTracks();
+				for i, v in pairs(Animations) do
+					if (v.IsPlaying and (v.Animation.AnimationId == SleepAnimationId)) then
+						return true;
+					end
+				end
+				FlatIdent_95CAC = 1;
+			end
+		end
+	end
+	function CreateESP()
+		local FlatIdent_8D327 = 0;
+		local BillboardGui;
+		local Box;
+		local PlayerName;
+		local PlayerWeapon;
+		local PlayerDistance;
+		local UIStroke;
+		while true do
+			if (FlatIdent_8D327 == 8) then
+				PlayerDistance.Font = Enum.Font.SourceSans;
+				PlayerDistance.Text = "500";
+				PlayerDistance.TextColor3 = Color3.fromRGB(0, 255, 8);
+				PlayerDistance.TextSize = 14;
+				PlayerDistance.TextYAlignment = Enum.TextYAlignment.Bottom;
+				return BillboardGui;
+			end
+			if (FlatIdent_8D327 == 6) then
+				PlayerWeapon.Font = Enum.Font.SourceSans;
+				PlayerWeapon.Text = "Weapon";
+				PlayerWeapon.TextColor3 = Color3.fromRGB(0, 255, 8);
+				PlayerWeapon.TextSize = 14;
+				PlayerWeapon.TextXAlignment = Enum.TextXAlignment.Left;
+				PlayerWeapon.TextYAlignment = Enum.TextYAlignment.Bottom;
+				PlayerWeapon.Visible = false;
+				PlayerDistance.Name = "PlayerDistance";
+				FlatIdent_8D327 = 7;
+			end
+			if (FlatIdent_8D327 == 1) then
+				BillboardGui.Active = true;
+				BillboardGui.AlwaysOnTop = true;
+				BillboardGui.LightInfluence = 1;
+				BillboardGui.Size = UDim2.new(500, 0, 800, 0);
+				Box.Name = "Box";
+				Box.Parent = BillboardGui;
+				Box.AnchorPoint = Vector2.new(0.5, 0.5);
+				Box.BackgroundColor3 = Color3.fromRGB(255, 255, 255);
+				FlatIdent_8D327 = 2;
+			end
+			if (FlatIdent_8D327 == 0) then
+				BillboardGui = Instance.new("BillboardGui");
+				Box = Instance.new("Frame");
+				PlayerName = Instance.new("TextLabel");
+				PlayerWeapon = Instance.new("TextLabel");
+				PlayerDistance = Instance.new("TextLabel");
+				UIStroke = Instance.new("UIStroke");
+				BillboardGui.Parent = CoreGui;
+				BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
+				FlatIdent_8D327 = 1;
+			end
+			if (4 == FlatIdent_8D327) then
+				PlayerName.BorderSizePixel = 0;
+				PlayerName.Position = UDim2.new(0.5, 0, 0.495499998, 0);
+				PlayerName.Size = UDim2.new(0, 100, 0, 10);
+				PlayerName.Font = Enum.Font.SourceSans;
+				PlayerName.Text = "Player";
+				PlayerName.TextColor3 = Color3.fromRGB(0, 255, 8);
+				PlayerName.TextSize = 14;
+				PlayerName.TextYAlignment = Enum.TextYAlignment.Bottom;
+				FlatIdent_8D327 = 5;
+			end
+			if (FlatIdent_8D327 == 7) then
+				PlayerDistance.Parent = BillboardGui;
+				PlayerDistance.AnchorPoint = Vector2.new(0.5, 0);
+				PlayerDistance.BackgroundColor3 = Color3.fromRGB(255, 255, 255);
+				PlayerDistance.BackgroundTransparency = 1.01;
+				PlayerDistance.BorderColor3 = Color3.fromRGB(0, 0, 0);
+				PlayerDistance.BorderSizePixel = 0;
+				PlayerDistance.Position = UDim2.new(0.5, 0, 0.504999995, 5);
+				PlayerDistance.Size = UDim2.new(0, 100, 0, 10);
+				FlatIdent_8D327 = 8;
+			end
+			if (FlatIdent_8D327 == 5) then
+				PlayerWeapon.Name = "PlayerWeapon";
+				PlayerWeapon.Parent = BillboardGui;
+				PlayerWeapon.BackgroundColor3 = Color3.fromRGB(255, 255, 255);
+				PlayerWeapon.BackgroundTransparency = 1.01;
+				PlayerWeapon.BorderColor3 = Color3.fromRGB(0, 0, 0);
+				PlayerWeapon.BorderSizePixel = 0;
+				PlayerWeapon.Position = UDim2.new(0.504499972, 0, 0.495499998, 0);
+				PlayerWeapon.Size = UDim2.new(0, 100, 0, 10);
+				FlatIdent_8D327 = 6;
+			end
+			if (FlatIdent_8D327 == 3) then
+				UIStroke.Color = Color3.fromRGB(0, 255, 0);
+				UIStroke.LineJoinMode = Enum.LineJoinMode.Miter;
+				PlayerName.Name = "PlayerName";
+				PlayerName.Parent = BillboardGui;
+				PlayerName.AnchorPoint = Vector2.new(0.5, 1);
+				PlayerName.BackgroundColor3 = Color3.fromRGB(255, 255, 255);
+				PlayerName.BackgroundTransparency = 1.01;
+				PlayerName.BorderColor3 = Color3.fromRGB(0, 0, 0);
+				FlatIdent_8D327 = 4;
+			end
+			if (FlatIdent_8D327 == 2) then
+				Box.BackgroundTransparency = 1;
+				Box.BorderColor3 = Color3.fromRGB(0, 0, 0);
+				Box.BorderSizePixel = 0;
+				Box.Position = UDim2.new(0.5, 0, 0.5, 0);
+				Box.Size = UDim2.new(0.00899999961, 0, 0.00899999961, 0);
+				UIStroke.Name = "UIStroke";
+				UIStroke.Parent = Box;
+				UIStroke.Thickness = 1;
+				FlatIdent_8D327 = 3;
+			end
+		end
+	end
+	function PlayerWeapon(Player)
+		local FlatIdent_7DD24 = 0;
+		local Model;
+		while true do
+			if (FlatIdent_7DD24 == 0) then
+				Model = Player:FindFirstChildOfClass("Model");
+				return (Model and Model:GetAttribute("RealName")) or "None";
+			end
+		end
+	end
+	function IsPlayer(Model)
+		return (Model.ClassName == "Model") and Model:FindFirstChild("Torso") and (Model.PrimaryPart ~= nil);
+	end
+	function SetColor(Billboard, Color)
+		Billboard.PlayerName.TextColor3 = Color;
+		Billboard.PlayerDistance.TextColor3 = Color;
+		Billboard.PlayerWeapon.TextColor3 = Color;
+		Billboard.Box.UIStroke.Color = Color;
+	end
+	function HitboxExpander(Model, Size, Hitbox)
+		if Hitbox.Enabled then
+			local FlatIdent_781F8 = 0;
+			local Part;
+			while true do
+				if (FlatIdent_781F8 == 0) then
+					Part = Model[Hitbox.Part];
+					Part.Size = Vector3.new(Size, Size, Size);
+					FlatIdent_781F8 = 1;
+				end
+				if (1 == FlatIdent_781F8) then
+					Part.Transparency = Hitbox.Transparency;
+					Part.CanCollide = false;
+					break;
+				end
+			end
+		else
+			local Part = Model[Hitbox.Part];
+			Part.Size = OriginalSizes[Hitbox.Part];
+			Part.Transparency = 0;
+			Part.CanCollide = true;
+		end
+	end
+	local HasESP = {};
+	RunService.Heartbeat:Connect(function()
+		local FlatIdent_104D4 = 0;
+		local ESP;
+		local Hitbox;
+		while true do
+			if (FlatIdent_104D4 == 1) then
+				for i, v in pairs(workspace:GetChildren()) do
+					if (HasESP[v] or IsPlayer(v)) then
+						if (HasESP[v] == nil) then
+							local FlatIdent_A9A3 = 0;
+							local Billboard;
+							while true do
+								if (FlatIdent_A9A3 == 0) then
+									Billboard = CreateESP();
+									HasESP[v] = Billboard;
+									FlatIdent_A9A3 = 1;
+								end
+								if (1 == FlatIdent_A9A3) then
+									Billboard.Adornee = v.PrimaryPart;
+									break;
+								end
+							end
+						elseif (HasESP[v] ~= nil) then
+							local FlatIdent_2FD19 = 0;
+							local Billboard;
+							local PrimaryPosition;
+							local Origin;
+							local Distance;
+							local Sleeping;
+							local Params;
+							local Direction;
+							local Raycast;
+							while true do
+								if (FlatIdent_2FD19 == 3) then
+									Billboard.Box.Visible = ESP.Box;
+									Billboard.PlayerDistance.Visible = ESP.Distance;
+									Billboard.PlayerName.Visible = ESP.Name;
+									FlatIdent_2FD19 = 4;
+								end
+								if (FlatIdent_2FD19 == 2) then
+									if ((Distance > ESP.DistanceLimit) or (not ESP.Sleepers and Sleeping)) then
+										local FlatIdent_8DCA9 = 0;
+										while true do
+											if (FlatIdent_8DCA9 == 0) then
+												Billboard.Enabled = false;
+												continue;
+												break;
+											end
+										end
+									end
+									Billboard.Enabled = true;
+									Billboard.Adornee = v.PrimaryPart;
+									FlatIdent_2FD19 = 3;
+								end
+								if (FlatIdent_2FD19 == 5) then
+									if (v.Head.Nametag.tag.Text ~= "") then
+										Billboard.PlayerName.Text = v.Head.Nametag.tag.Text;
+									end
+									Params = RaycastParams.new();
+									Params.FilterDescendantsInstances = {IgnoreFolder,v};
+									FlatIdent_2FD19 = 6;
+								end
+								if (FlatIdent_2FD19 == 4) then
+									Billboard.PlayerWeapon.Visible = ESP.Weapon;
+									Billboard.PlayerDistance.Text = math.round(Distance) .. "s";
+									Billboard.PlayerWeapon.Text = PlayerWeapon(v);
+									FlatIdent_2FD19 = 5;
+								end
+								if (FlatIdent_2FD19 == 0) then
+									Billboard = HasESP[v];
+									PrimaryPosition = v.PrimaryPart.Position;
+									Origin = CurrentCamera.CFrame.Position;
+									FlatIdent_2FD19 = 1;
+								end
+								if (FlatIdent_2FD19 == 6) then
+									Direction = PrimaryPosition - Origin;
+									Raycast = workspace:Raycast(Origin, Direction, Params);
+									SetColor(Billboard, function()
+										if (not Raycast or not ESP.VisibleCheck) then
+											return ESP.VisibleColor;
+										else
+											return ESP.NotVisibleColor;
+										end
+									end());
+									break;
+								end
+								if (FlatIdent_2FD19 == 1) then
+									Distance = (Origin - PrimaryPosition).Magnitude;
+									HitboxExpander(v, Hitbox.Size, Hitbox);
+									Sleeping = IsSleeping(v);
+									FlatIdent_2FD19 = 2;
+								end
+							end
+						end
+					end
+				end
+				break;
+			end
+			if (FlatIdent_104D4 == 0) then
+				ESP = _G.Flags.ESP;
+				Hitbox = _G.Flags.HitboxExpander;
+				FlatIdent_104D4 = 1;
+			end
+		end
+	end);
+end
